@@ -1,0 +1,21 @@
+// 一个启动配置：先编译扩展，然后在新的窗口中打开它
+// 使用 IntelliSense 了解可能的属性
+// 悬停可查看现有属性的说明
+// 更多信息请访问: https://go.microsoft.com/fwlink/?linkid=830387
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Run Extension",
+			"type": "extensionHost",
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}"
+			],
+			"outFiles": [
+				"${workspaceFolder}/dist/**/*.js"
+			],
+			"preLaunchTask": "${defaultBuildTask}"
+		}
+	]
+}

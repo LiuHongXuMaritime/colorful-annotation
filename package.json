@@ -1,0 +1,136 @@
+{
+  "name": "colorful-annotations",
+  "displayName": "Colorful annotations",
+  "description": "给代码注释添加彩色高亮 Add colorful highlights to code comments",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Colorful Annotations",
+      "properties": {
+        "colorfulAnnotations.colors": {
+          "type": "object",
+          "default": {
+            "r": "#ff5555",
+            "g": "#50fa7b",
+            "b": "#6a9fff",
+            "y": "#f1fa8c",
+            "o": "#ffb86c",
+            "p": "#bd93f9",
+            "c": "#8be9fd",
+            "m": "#ff79c6",
+            "k": "#8b949e",
+            "w": "#f8f8f2"
+          },
+          "additionalProperties": { "type": "string" },
+          "markdownDescription": "标记字母对应的颜色。在注释里写 `@标记` 即可让该行变色，例如 `// @r 红色行`。\n内置：r 红、g 绿、b 蓝、y 黄、o 橙、p 紫、c 青、m 品红、k 灰、w 白。\n只写想改的项即可，未写的沿用默认值。\nmarker colors"
+        },
+        "colorfulAnnotations.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "是否启用彩色注释\nuse marker colors?"
+        },
+        "colorfulAnnotations.excludeLanguages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "markdownDescription": "不处理这些语言的文件（语言 ID，如 `markdown`、`json`）\nexclude languages for annotations"
+        },
+        "colorfulAnnotations.lineCommentPrefixes": {
+          "type": "object",
+          "default": {
+            "typescript": "//",
+            "typescriptreact": "//",
+            "javascript": "//",
+            "javascriptreact": "//",
+            "java": "//",
+            "c": "//",
+            "cpp": "//",
+            "csharp": "//",
+            "go": "//",
+            "rust": "//",
+            "swift": "//",
+            "kotlin": "//",
+            "php": "//",
+            "dart": "//",
+            "scss": "//",
+            "less": "//",
+            "python": "#",
+            "shellscript": "#",
+            "powershell": "#",
+            "ruby": "#",
+            "perl": "#",
+            "r": "#",
+            "yaml": "#",
+            "toml": "#",
+            "dockerfile": "#",
+            "ini": ";",
+            "sql": "--",
+            "lua": "--",
+            "vb": "'"
+          },
+          "additionalProperties": { "type": "string" },
+          "markdownDescription": "各语言的行注释前缀，键是语言 ID（编辑器右下角显示的那个）。\n未列出的语言默认按 `//` 处理，你也可以在这里补充，例如 `{ \"vue\": \"//\", \"toml\": \"#\" }`。\n只写想改的项即可，未写的沿用默认值。\nline comment prefix per language"
+        },
+        "colorfulAnnotations.updateDelay": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "maximum": 2000,
+          "markdownDescription": "输入停止后延迟重绘的毫秒数（防抖）。越小越跟手，但重绘越频繁。\nupdate delay in ms"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "colorful-annotations.helloWorld",
+        "title": "openWindow"
+      },
+      {
+        "command": "get-now-time",
+        "title": "colorfulTry2"
+      },
+      {
+        "command": "colorful-annotations.openSettings",
+        "title": "Colorful Annotations: 打开设置"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.103.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "typescript-eslint": "^8.61.1",
+    "eslint": "^10.5.0",
+    "typescript": "^6.0.3",
+    "ts-loader": "^9.6.2",
+    "webpack": "^5.107.2",
+    "webpack-cli": "^7.0.3",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  }
+}

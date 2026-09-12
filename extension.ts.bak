@@ -1,0 +1,142 @@
+// 'vscode' 模块包含 VS Code 的可扩展性 API
+// 导入该模块，并在下面的代码中以别名 vscode 引用它
+import * as vscode from 'vscode';
+
+// 当扩展被激活时会调用此方法
+// 当命令第一次被执行时，扩展会被激活
+export function activate(context: vscode.ExtensionContext) {
+
+    // 使用 console.log 输出诊断信息、使用 console.error 输出错误信息
+    // 当扩展被激活时，这行代码只会执行一次
+    console.log('恭喜，你的扩展 "colorful-annotations" 现已激活！');
+	interface CommentRule {
+		line?: string;      // 行注释前缀，如 "//"、"#"
+		block?: [string, string]; // 块注释，如 ["/*", "*/"]
+	}
+
+	const commentRules: Record<string, CommentRule> = {
+		typescript: { line: '//', block: ['/*', '*/'] },
+		javascript: { line: '//', block: ['/*', '*/'] },
+		java: { line: '//', block: ['/*', '*/'] },
+		c: { line: '//', block: ['/*', '*/'] },
+		cpp: { line: '//', block: ['/*', '*/'] },
+		go: { line: '//', block: ['/*', '*/'] },
+		python: { line: '#' },
+		shellscript: { line: '#' },
+		yaml: { line: '#' },
+		sql: { line: '--', block: ['/*', '*/'] },
+		html: { block: ['<!--', '-->'] },
+		css: { block: ['/*', '*/'] },
+	};
+	// 定义颜色装饰类型
+	const redDecoration = vscode.window.createTextEditorDecorationType({
+	color: '#ff5555'
+	});
+
+	const greenDecoration = vscode.window.createTextEditorDecorationType({
+	color: '#50fa7b'
+	});
+
+	function updateDecorations(editor: vscode.TextEditor) {
+	const text = editor.document.getText();
+	const lines = text.split(/\r?\n/);
+
+	const redRanges: vscode.Range[] = [];
+	const greenRanges: vscode.Range[] = [];
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		// /xxx/ 表示正则模式 ez
+		if (/\/\/\s*@r\b/.test(line)) {
+		redRanges.push(
+			new vscode.Range(i, 0, i, line.length)
+		);
+		}
+
+		if (/\/\/\s*@g\b/.test(line)) {
+		greenRanges.push(
+			new vscode.Range(i, 0, i, line.length)
+		);
+		}
+	}
+
+	editor.setDecorations(redDecoration, redRanges);
+	editor.setDecorations(greenDecoration, greenRanges);
+	}
+	// forward
+	let timer: NodeJS.Timeout | undefined;
+	function scheduleUpdate(editor: vscode.TextEditor) {
+	if (timer) {
+		clearTimeout(timer);
+	}
+	timer = setTimeout(() => {
+		updateDecorations(editor);
+		timer = undefined;
+	}, 100);
+	}
+
+
+	// 监听注释
+	const listenDisposable1 = vscode.workspace.onDidChangeTextDocument(event => {
+	const editor = vscode.window.activeTextEditor;
+	if (editor && event.document === editor.document) {
+		scheduleUpdate(editor);
+	}
+	});
+
+	// 监听文件切换
+	const listenDisposable2 = vscode.window.onDidChangeActiveTextEditor(editor => {
+	if (editor) {
+		updateDecorations(editor);
+	}
+	});
+
+
+	// 只见只所得
+	const listenDisposable3 = vscode.window.onDidChangeTextEditorVisibleRanges(event => {
+  		updateDecorations(event.textEditor);
+	});
+
+	let rule: CommentRule = commentRules[vscode.languages.getLanguages.name];
+	if (!rule) {
+		rule = { line: '//', block: ['/*', '*/']} ; 
+	}
+	console.log(rule);
+	
+	// 不支持的语言直接跳过
+    // 该命令已在 package.json 文件中定义
+    // 现在在下面注册该命令的实现
+    // commandId 参数必须与 package.json 中 command 字段保持一致
+    const disposable = vscode.commands.registerCommand('colorful-annotations.helloWorld', () => {
+        // 你放在这里的代码在每次执行该命令时都会运行
+        // 向用户显示一个消息框
+        vscode.window.showInformationMessage('来自 Colorful annotations 的 Hello World！');
+    });
+
+	const disposable2 = vscode.commands.registerCommand('get-now-time', () => {
+        // 你放在这里的代码在每次执行该命令时都会运行
+        // 向用户显示一个消息框
+		const now = new Date();
+		let res = now.toLocaleString('zh-CN', {
+		year: 'numeric', month: '2-digit', day: '2-digit',
+		hour: '2-digit', minute: '2-digit', second: '2-digit',
+		hour12: false
+		});
+	// 输出示例: 2025/05/28 16:06:32
+        vscode.window.showInformationMessage(res);
+    });
+
+    context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable2);
+	context.subscriptions.push(listenDisposable1,listenDisposable2,listenDisposable3);
+
+	//首次激活:>
+	if (vscode.window.activeTextEditor) {
+    	updateDecorations(vscode.window.activeTextEditor);
+  }
+
+
+}
+
+// 当扩展被停用时会调用此方法
+export function deactivate() {}

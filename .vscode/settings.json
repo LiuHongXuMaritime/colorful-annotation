@@ -1,0 +1,13 @@
+// 在此文件中放置你的设置，以覆盖默认设置和用户设置。
+{
+	"files.exclude": {
+		"out": false, // 设为 true 可隐藏存放已编译 JS 文件的 "out" 文件夹
+		"dist": false // 设为 true 可隐藏存放已编译 JS 文件的 "dist" 文件夹
+	},
+	"search.exclude": {
+		"out": true, // 设为 false 可将 "out" 文件夹包含在搜索结果中
+		"dist": true // 设为 false 可将 "dist" 文件夹包含在搜索结果中
+	},
+	// 关闭 tsc 任务的自动检测，因为我们已经将所需任务配置为 npm 脚本
+	"js/ts.tsc.autoDetect": "off"
+}

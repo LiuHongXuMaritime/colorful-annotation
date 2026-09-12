@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "Node16",
+		"target": "ES2022",
+		"lib": [
+			"ES2022"
+		],
+        "types": [
+            "node",
+            "mocha"
+        ],
+		"sourceMap": true,
+		"rootDir": "src",
+		"strict": true,   /* 启用所有严格类型检查选项 */
+		/* 附加检查 */
+		// "noImplicitReturns": true, /* 当函数并非所有代码路径都有返回值时报错。 */
+		// "noFallthroughCasesInSwitch": true, /* 对 switch 语句中的 case 穿透报错。 */
+		// "noUnusedParameters": true,  /* 对未使用的参数报错。 */
+	}
+}
