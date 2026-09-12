@@ -12,3 +12,9 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+*.bak
+**/*.bak
+*.vsix
+package-lock.json
+.github/**
+.git/**

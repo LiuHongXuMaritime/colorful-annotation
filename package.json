@@ -3,6 +3,16 @@
   "displayName": "Colorful annotations",
   "description": "给代码注释添加彩色高亮 Add colorful highlights to code comments",
   "version": "0.0.1",
+  "publisher": "DraculaLhx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiuHongXuMaritime/colorful-annotation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LiuHongXuMaritime/colorful-annotation/issues"
+  },
+  "homepage": "https://github.com/LiuHongXuMaritime/colorful-annotation#readme",
   "engines": {
     "vscode": "^1.103.0"
   },
@@ -92,16 +102,9 @@
     },
     "commands": [
       {
-        "command": "colorful-annotations.helloWorld",
-        "title": "openWindow"
-      },
-      {
-        "command": "get-now-time",
-        "title": "colorfulTry2"
-      },
-      {
         "command": "colorful-annotations.openSettings",
-        "title": "Colorful Annotations: 打开设置"
+        "title": "打开设置",
+        "category": "Colorful Annotations"
       }
     ]
   },
